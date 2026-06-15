@@ -6,165 +6,187 @@
     <title>KELU Browser | The Voice-First Web</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
-        body { 
-            background-color: #0a0a0a; 
-            color: #f5f5f5; 
-            font-family: 'Inter', sans-serif; 
-        }
-        .gradient-text { 
-            background: linear-gradient(135deg, #a855f7, #3b82f6); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1rem;
-            transition: transform 0.3s ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(168, 85, 247, 0.4);
-        }
+        body { background-color: #050505; color: #f5f5f5; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .gradient-text { background: linear-gradient(135deg, #a855f7, #3b82f6, #50FA7B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% 200%; animation: gradientShift 5s ease infinite; }
+        
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        /* Bento Box Styling */
+        .bento-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; position: relative; }
+        .bento-card:hover { transform: translateY(-5px) scale(1.01); border-color: rgba(168, 85, 247, 0.5); box-shadow: 0 10px 40px -10px rgba(168, 85, 247, 0.2); }
+        .bento-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent); transform: skewX(-20deg); transition: 0.5s; }
+        .bento-card:hover::before { left: 150%; }
+
+        /* Animated Voice Waves */
+        .wave-container { display: flex; align-items: center; justify-content: center; gap: 4px; height: 30px; }
+        .wave { width: 4px; background: #a855f7; border-radius: 10px; animation: waveAnim 1s ease-in-out infinite alternate; }
+        .wave:nth-child(1) { height: 10px; animation-delay: 0.0s; }
+        .wave:nth-child(2) { height: 20px; animation-delay: 0.2s; }
+        .wave:nth-child(3) { height: 30px; animation-delay: 0.4s; }
+        .wave:nth-child(4) { height: 20px; animation-delay: 0.6s; }
+        .wave:nth-child(5) { height: 10px; animation-delay: 0.8s; }
+        @keyframes waveAnim { 0% { height: 5px; opacity: 0.5; } 100% { height: 30px; opacity: 1; background: #3b82f6; } }
+
+        /* Floating Mockup */
+        .floating-mockup { animation: float 6s ease-in-out infinite; box-shadow: 0 0 60px rgba(168, 85, 247, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
+        
+        /* Glow Button */
+        .glow-btn { position: relative; }
+        .glow-btn::after { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, #a855f7, #3b82f6, #a855f7); z-index: -1; border-radius: 9999px; filter: blur(10px); opacity: 0; transition: opacity 0.3s; }
+        .glow-btn:hover::after { opacity: 0.7; }
     </style>
 </head>
 <body class="antialiased selection:bg-purple-500 selection:text-white flex flex-col min-h-screen">
 
+    <!-- Ambient Background Glow -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-purple-900/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+
     <!-- Navigation -->
-    <nav class="container mx-auto px-6 py-8 flex justify-between items-center">
-        <!-- Logo and Brand Name -->
+    <nav class="container mx-auto px-6 py-8 flex justify-between items-center" data-aos="fade-down" data-aos-duration="1000">
         <div class="flex items-center text-2xl font-extrabold tracking-tighter">
+            <!-- Brand Logo SVG -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" class="w-10 h-10 mr-3">
                 <path fill="#06010F" d="M54,4 A50,50 0 1,0 54.001,4 Z" />
                 <path fill="#160238" fill-opacity="0.85" d="M54,16 A38,38 0 1,0 54.001,16 Z" />
                 <path fill="#220550" fill-opacity="0.6" d="M54,30 A24,24 0 1,0 54.001,30 Z" />
                 <path fill="none" stroke="#BD93F9" stroke-width="1.2" d="M54,5.5 A48.5,48.5 0 1,0 54.001,5.5 Z" />
-                <path fill="none" stroke="#8BE9FD" stroke-width="0.6" stroke-opacity="0.35" d="M54,22 A32,32 0 1,0 54.001,22 Z" />
                 <path fill="none" stroke="#FF79C6" stroke-width="1.0" stroke-opacity="0.55" d="M18,44 Q36,18 72,28 Q96,36 90,64 Q82,88 54,90" />
-                <path fill="#FFD700" d="M54.0,6.2 L56.2,10.0 L54.0,13.8 L51.8,10.0 Z" />
-                <path fill="#FFFFFF" fill-opacity="0.8" d="M54.0,8.8 L55.0,10.0 L54.0,11.2 L53.0,10.0 Z" />
-                <path fill="#FFD700" d="M88.4,23.6 L90.2,26.6 L88.4,29.6 L86.6,26.6 Z" />
-                <path fill="#FFD700" d="M96.9,60.8 L98.7,63.8 L96.9,66.8 L95.1,63.8 Z" />
-                <path fill="#FFD700" d="M73.1,90.6 L74.9,93.6 L73.1,96.6 L71.3,93.6 Z" />
-                <path fill="#FFD700" d="M34.9,90.6 L36.7,93.6 L34.9,96.6 L33.1,93.6 Z" />
-                <path fill="#FFD700" d="M11.1,60.8 L12.9,63.8 L11.1,66.8 L9.3,63.8 Z" />
-                <path fill="#FFD700" d="M19.6,23.6 L21.4,26.6 L19.6,29.6 L17.8,26.6 Z" />
-                <path fill="none" stroke="#FFD700" stroke-width="0.5" stroke-opacity="0.25" d="M54,10 L88.4,26.6 M88.4,26.6 L96.9,63.8 M96.9,63.8 L73.1,93.6 M73.1,93.6 L34.9,93.6 M34.9,93.6 L11.1,63.8 M11.1,63.8 L19.6,26.6 M19.6,26.6 L54,10" />
-                <path fill="none" stroke="#50FA7B" stroke-width="1.4" stroke-opacity="0.9" d="M50.2,14.5 A3.8,3.8 0 0,1 57.8,14.5" />
                 <path fill="none" stroke="#50FA7B" stroke-width="1.2" d="M54,16 A2.2,2.2 0 1,0 54.001,16 Z" />
-                <path fill="none" stroke="#50FA7B" stroke-width="1.2" d="M54,18.2 L54,21.5 M51.8,19.8 L56.2,19.8" />
                 <path fill="none" stroke="#8BE9FD" stroke-width="2.0" stroke-opacity="0.75" d="M26,54 Q54,30 82,54 Q54,78 26,54 Z" />
-                <path fill="#8BE9FD" fill-opacity="0.06" d="M26,54 Q54,30 82,54 Q54,78 26,54 Z" />
-                <path fill="none" stroke="#8BE9FD" stroke-width="1.2" stroke-opacity="0.5" d="M44,54 A10,10 0 1,0 44.001,54 Z" />
-                <path fill="#06010F" d="M48,54 A6,6 0 1,0 48.001,54 Z" />
-                <path fill="#FFFFFF" fill-opacity="0.7" d="M56.5,50.5 A1.8,1.8 0 1,0 56.501,50.5 Z" />
                 <path fill="none" stroke="#BD93F9" stroke-width="7.5" stroke-linecap="round" d="M38,25 L38,83" />
                 <path fill="none" stroke="#8BE9FD" stroke-width="6.5" stroke-linecap="round" d="M38,52 L73,25" />
                 <path fill="none" stroke="#8BE9FD" stroke-width="6.5" stroke-linecap="round" d="M38,57 L73,83" />
-                <path fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-opacity="0.2" stroke-linecap="round" d="M38,25 L38,83" />
-                <path fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.18" stroke-linecap="round" d="M38,52 L73,25 M38,57 L73,83" />
-                <path fill="#FF79C6" fill-opacity="0.2" d="M38,45.5 A9,9 0 1,0 38.001,45.5 Z" />
-                <path fill="#FF79C6" fill-opacity="0.45" d="M38,49.5 A5,5 0 1,0 38.001,49.5 Z" />
-                <path fill="#FF79C6" d="M38,52 A2.8,2.8 0 1,0 38.001,52 Z" />
-                <path fill="#FFFFFF" fill-opacity="0.9" d="M38.8,51.2 A1.2,1.2 0 1,0 38.801,51.2 Z" />
-                <path fill="#8BE9FD" fill-opacity="0.8" d="M73,25 A2.5,2.5 0 1,0 73.001,25 Z" />
-                <path fill="#8BE9FD" fill-opacity="0.8" d="M73,83 A2.5,2.5 0 1,0 73.001,83 Z" />
-                <path fill="#BD93F9" fill-opacity="0.7" d="M38,25 A2.5,2.5 0 1,0 38.001,25 Z" />
-                <path fill="#BD93F9" fill-opacity="0.7" d="M38,83 A2.5,2.5 0 1,0 38.001,83 Z" />
-                <path fill="#8BE9FD" fill-opacity="0.4" d="M65,40 A1.5,1.5 0 1,0 65.001,40 Z" />
-                <path fill="#8BE9FD" fill-opacity="0.4" d="M68,68 A1.5,1.5 0 1,0 68.001,68 Z" />
-                <path fill="#BD93F9" fill-opacity="0.35" d="M55,36 A1.2,1.2 0 1,0 55.001,36 Z" />
-                <path fill="#BD93F9" fill-opacity="0.35" d="M58,72 A1.2,1.2 0 1,0 58.001,72 Z" />
-                <path fill="none" stroke="#8BE9FD" stroke-width="1.2" stroke-opacity="0.5" d="M76,42 Q82,54 76,66" />
-                <path fill="none" stroke="#8BE9FD" stroke-width="0.9" stroke-opacity="0.3" d="M81,38 Q90,54 81,70" />
-                <path fill="none" stroke="#8BE9FD" stroke-width="0.7" stroke-opacity="0.18" d="M86,34 Q97,54 86,74" />
             </svg>
             KELU Browser
         </div>
-        <a href="https://indusapp.store/os3f4be1" target="_blank" class="text-sm font-semibold text-gray-300 hover:text-white transition">
+        <a href="#download" class="text-sm font-semibold text-gray-300 hover:text-white transition bg-white/5 px-5 py-2 rounded-full border border-white/10 hover:bg-white/10">
             Get the App
         </a>
     </nav>
 
     <!-- Hero Section -->
-    <header class="container mx-auto px-6 py-20 md:py-32 flex-grow text-center flex flex-col justify-center items-center">
-        <div class="inline-block py-1 px-3 rounded-full bg-purple-900/30 border border-purple-500/30 text-purple-300 text-sm font-semibold mb-8">
-            Redefining Digital Accessibility
+    <header class="container mx-auto px-6 pt-20 pb-24 md:pt-32 text-center flex flex-col justify-center items-center relative">
+        
+        <div data-aos="fade-up" data-aos-duration="1000" class="inline-flex items-center gap-3 py-1.5 px-4 rounded-full bg-purple-900/20 border border-purple-500/30 text-purple-300 text-sm font-semibold mb-8 backdrop-blur-md">
+            <div class="wave-container">
+                <div class="wave"></div><div class="wave"></div><div class="wave"></div><div class="wave"></div><div class="wave"></div>
+            </div>
+            100% Voice-Operated AI
         </div>
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight leading-tight max-w-4xl">
+
+        <h1 data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000" class="text-6xl md:text-8xl font-extrabold mb-6 tracking-tighter leading-tight max-w-5xl">
             The Web, <br>
             <span class="gradient-text">Commanded by Voice.</span>
         </h1>
-        <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Not an afterthought screen reader. We built the world's first natively voice-operated AI browser to give visually impaired users absolute digital independence and zero reliance on touch.
+        
+        <p data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000" class="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+            We are giving visually impaired users absolute digital independence. No touch. No screen readers. Just pure voice computing.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
-            <a href="https://indusapp.store/os3f4be1" target="_blank" class="bg-white text-black font-bold py-4 px-8 rounded-full hover:bg-gray-200 transition transform hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                Download on Indus Appstore
+        
+        <!-- Action Buttons -->
+        <div id="download" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000" class="flex flex-col sm:flex-row gap-5 justify-center w-full sm:w-auto mb-20 z-10">
+            <!-- Direct APK (Primary) -->
+            <a href="app-release.apk" class="glow-btn bg-white text-black font-extrabold py-4 px-10 rounded-full hover:bg-gray-100 transition flex items-center justify-center gap-3 shadow-2xl">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Download Direct APK
             </a>
+            <!-- Indus Appstore (Secondary) -->
+            <a href="https://indusapp.store/os3f4be1" target="_blank" class="bg-[#111] border border-gray-700 text-white font-bold py-4 px-10 rounded-full hover:bg-gray-800 transition flex items-center justify-center gap-3">
+                Get on Indus Appstore
+            </a>
+        </div>
+
+        <!-- Floating App Mockup -->
+        <div data-aos="zoom-in-up" data-aos-delay="500" data-aos-duration="1500" class="max-w-xs md:max-w-md mx-auto floating-mockup rounded-[2.5rem] p-2 bg-gray-900 border-t border-white/20">
+            <img src="screenshot.png" alt="Kelu Browser Interface" class="rounded-[2rem] w-full h-auto object-cover" onerror="this.src='https://via.placeholder.com/400x800/0a0a0a/a855f7?text=App+Screenshot'">
         </div>
     </header>
 
-    <!-- Tech Architecture Section -->
-    <section class="bg-black py-24 border-t border-white/5">
+    <!-- Bento Grid Architecture Section -->
+    <section class="bg-[#020202] py-32 border-t border-white/5 relative">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4">Elite Tech, <span class="gradient-text">Zero Compromise.</span></h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Built to bypass traditional bottlenecks, providing lightning-fast response times and uncompromised privacy.</p>
+            <div class="text-center mb-20" data-aos="fade-up">
+                <h2 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">Elite Tech, <span class="text-gray-500">Zero Compromise.</span></h2>
             </div>
             
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <!-- Feature 1 -->
-                <div class="glass-card p-8">
-                    <div class="text-purple-500 mb-4">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path></svg>
+            <!-- Bento Box Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                
+                <!-- Large Featured Box -->
+                <div data-aos="fade-up" data-aos-delay="100" class="bento-card p-10 md:col-span-2 bg-gradient-to-br from-purple-900/20 to-black">
+                    <div class="text-purple-400 mb-6 bg-purple-500/10 w-16 h-16 rounded-2xl flex items-center justify-center">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Offline Voice Engine</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Guarantees zero-latency and absolute user privacy. Core actions process entirely on-device without cloud dependency.</p>
+                    <h3 class="text-3xl font-bold mb-4">100% Zero-Touch</h3>
+                    <p class="text-gray-400 text-lg leading-relaxed">A complete paradigm shift. We eliminated the need for touch screens entirely. Navigate, read, and explore the web using only conversational voice commands.</p>
                 </div>
-                <!-- Feature 2 -->
-                <div class="glass-card p-8">
-                    <div class="text-blue-500 mb-4">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+
+                <!-- Small Box 1 -->
+                <div data-aos="fade-up" data-aos-delay="200" class="bento-card p-8">
+                    <div class="text-blue-400 mb-6 bg-blue-500/10 w-14 h-14 rounded-2xl flex items-center justify-center">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Custom AI API Integration</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">An advanced mode allowing users to plug in Claude, Gemini, or ChatGPT for highly customized, human-like assistance.</p>
+                    <h3 class="text-xl font-bold mb-3">Offline Engine</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Absolute privacy. Core voice processing runs entirely on your device with zero-latency.</p>
                 </div>
-                <!-- Feature 3 -->
-                <div class="glass-card p-8">
-                    <div class="text-purple-500 mb-4">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+
+                <!-- Small Box 2 -->
+                <div data-aos="fade-up" data-aos-delay="300" class="bento-card p-8">
+                    <div class="text-green-400 mb-6 bg-green-500/10 w-14 h-14 rounded-2xl flex items-center justify-center">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Smartphone-Built Codebase</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Engineered entirely on an Android smartphone using mobile compilers, completely bypassing the requirement of high-end PCs.</p>
+                    <h3 class="text-xl font-bold mb-3">Custom AI APIs</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Plug in Claude, Gemini, or ChatGPT for a Jarvis-like personalized browsing experience.</p>
+                </div>
+
+                <!-- Wide Box -->
+                <div data-aos="fade-up" data-aos-delay="400" class="bento-card p-10 md:col-span-2 bg-gradient-to-tr from-blue-900/10 to-black flex flex-col justify-center">
+                    <h3 class="text-2xl font-bold mb-3">Smartphone-Built Codebase</h3>
+                    <p class="text-gray-400 leading-relaxed">We didn't just break software boundaries; we broke hardware rules. The entire Kelu architecture was engineered natively on an Android smartphone.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Philosophy Section -->
-    <section class="container mx-auto px-6 py-24 text-center max-w-3xl">
-        <div class="mb-12">
-            <h2 class="text-2xl text-gray-500 font-semibold tracking-widest uppercase">The Philosophy</h2>
+    <section class="container mx-auto px-6 py-32 max-w-5xl text-center">
+        <div data-aos="zoom-in" data-aos-duration="1000" class="relative z-10">
+            <h2 class="text-sm text-purple-500 font-bold tracking-[0.3em] uppercase mb-10">The Core Philosophy</h2>
+            <blockquote class="text-4xl md:text-6xl font-light italic leading-tight text-white mb-8 tracking-tight">
+                "Bolenge nahi, <br><span class="text-gray-500">to hoga kaise?</span>"
+            </blockquote>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light">
+                If we don't even speak, how will it ever happen? We are on a mission to evolve from digital software freedom to physical hardware independence.
+            </p>
         </div>
-        <blockquote class="text-3xl md:text-4xl font-light italic leading-tight text-white mb-8">
-            "Bolenge nahi, to hoga kaise?"
-        </blockquote>
-        <p class="text-lg text-gray-400">
-            If we don't even speak, how will it ever happen?
-        </p>
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-white/10 mt-auto">
-        <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-gray-500 text-sm">© 2026 KELU Browser. Built with absolute resolve.</p>
-            <a href="https://linkedin.com/company/kelu-browser" target="_blank" class="text-gray-500 hover:text-white text-sm transition">
+    <footer class="border-t border-white/5 bg-[#020202]">
+        <div class="container mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3 opacity-50 hover:opacity-100 transition cursor-pointer">
+                <svg class="w-6 h-6" viewBox="0 0 108 108"><path fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" d="M38,25 L38,83 M38,52 L73,25 M38,57 L73,83"/></svg>
+                <span class="font-bold tracking-widest text-sm">KELU</span>
+            </div>
+            <p class="text-gray-600 text-sm">© 2026 KELU Browser. Built with absolute resolve.</p>
+            <a href="https://linkedin.com/company/kelu-browser" target="_blank" class="text-gray-500 hover:text-white text-sm font-semibold transition">
                 LinkedIn
             </a>
         </div>
     </footer>
 
+    <!-- Initialize Animations -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true, // Animation happens only once when scrolling down
+            offset: 50, // Starts animation slightly earlier
+        });
+    </script>
 </body>
 </html>
